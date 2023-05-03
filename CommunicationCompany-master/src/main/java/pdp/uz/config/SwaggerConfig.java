@@ -36,7 +36,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Spring Project (Spring Security And JWT) API")
-                .description("21.04.2022")
+                .description("03.05.2023")
                 .version("1.0")
                 .license("Apache License version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
