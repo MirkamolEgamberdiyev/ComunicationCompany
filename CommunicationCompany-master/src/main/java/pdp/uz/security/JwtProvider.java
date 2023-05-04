@@ -3,11 +3,11 @@ package pdp.uz.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+import pdp.uz.entity.Role;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 @Component
 public class JwtProvider {
@@ -16,7 +16,7 @@ public class JwtProvider {
 
     private static final String secretKey = "secretKey";
 
-    public String generateToken(String username, Collection<GrantedAuthority> roles) {
+    public String generateToken(String username, Set<Role> roles) {
         Date expireDate = new Date(System.currentTimeMillis() + EXPIRE_TIME);
         return Jwts
                 .builder()

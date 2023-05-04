@@ -10,6 +10,7 @@ import pdp.uz.entity.Employee;
 import pdp.uz.entity.Role;
 import pdp.uz.entity.enums.BranchType;
 import pdp.uz.entity.enums.RoleName;
+import pdp.uz.entity.enums.RoleNames;
 import pdp.uz.payload.AttachRoleDto;
 import pdp.uz.payload.EmployeeDto;
 import pdp.uz.payload.RoleDto;
@@ -70,7 +71,7 @@ public class EmployeeService {
     }
 
     public ApiResponse addRole(RoleDto dto) {
-        Role role = Role.builder().name(dto.getName()).build();
+        Role role = Role.builder().roleNames(RoleNames.valueOf(dto.getName())).build();
         return new ApiResponse("Created", true, roleRepo.save(role));
     }
 
@@ -123,7 +124,7 @@ public class EmployeeService {
         if ((active.getBranch().getType() == BranchType.BRANCH
                 && active.getBranch().getId().equals(employee.getBranch().getId())) || active.getBranch().getType() == BranchType.MAIN) {
             for (Role activeRole : active.getRoles()) {
-                if (Checking.accessRole(activeRole.getName(), role.getName(), active.getBranch().getType(), employee.getBranch().getType())) {
+                if (Checking.accessRole(activeRole.getRoleNames().name(), role.getRoleNames().name(), active.getBranch().getType(), employee.getBranch().getType())) {
                     access = true;
                     break;
                 }

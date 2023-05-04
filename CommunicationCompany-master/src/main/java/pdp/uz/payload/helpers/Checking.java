@@ -11,7 +11,7 @@ public class Checking {
 
     public static boolean hasRole(Employee employee, RoleName roleName) {
         for (Role role : employee.getRoles()) {
-            if (role.getName().equals(roleName.name()))
+            if (role.getRoleNames().name().equals(roleName.name()))
                 return true;
         }
         return false;
@@ -36,7 +36,7 @@ public class Checking {
             }
             for (Role fromRole : from.getRoles()) {
                 for (Role toRole : to.getRoles()) {
-                    return (accessRole(fromRole.getName(), toRole.getName(), from.getBranch().getType(), to.getBranch().getType()));
+                    return (accessRole(fromRole.getRoleNames().name(), toRole.getRoleNames().name(), from.getBranch().getType(), to.getBranch().getType()));
                 }
             }
         }

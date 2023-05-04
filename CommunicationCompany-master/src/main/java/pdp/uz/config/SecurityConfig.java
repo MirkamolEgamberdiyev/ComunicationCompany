@@ -18,6 +18,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import pdp.uz.security.JwtFilter;
 import pdp.uz.service.UserService;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -82,4 +87,49 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/webjars/**");
         web.ignoring().antMatchers("/api/auth");
     }
+
+
+    public Boolean sendMessage(String recipient, String link) {
+        try {
+            Properties properties = new Properties();
+            properties.put("mail.transport.protocol", "smtp");
+            properties.put("mail.smtp.auth", "true");
+            properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.debug", "true");
+//        return mailSender;
+
+            Properties newProperties = new Properties();
+            newProperties.put("mail.smtp.host", "sandbox.smtp.mailtrap.io");
+            newProperties.put("mail.smtp.port", "587");
+            newProperties.put("mail.smtp.starttls.enable", "true");
+            newProperties.put("mail.smtp.auth", "true");
+            String username = "a158d78b65a1df";
+            String password = "471c9eefc37f12";
+            Session session = getSession(newProperties, username, password);
+            Message message = new MimeMessage(session);
+            message.setSubject("Test uchun subjecct");
+            String mess = String.format("<h1><a href='/%s'>Tasdiqlang</a></h1>", link);
+            message.setContent(mess, "text/html");
+            message.setFrom(new InternetAddress(username));
+//            String recipient = "farruxmashrapov92@gmail.com";
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+            Transport.send(message);
+            return true;
+        } catch (MessagingException e) {
+            return false;
+        }
+    }
+
+
+    private Session getSession(Properties newProperties, String username, String password) {
+        return Session.getInstance(newProperties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+    }
+
+
+
 }
